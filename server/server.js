@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../views/index.html'));
 });
 
-// use fs for traversal of the git repo for reading/writing --> look for the repo folder
+// use fs for traversal of the git repo for reading/writing --> look for the git-repo
   // can add in ability to search for particular repo and then do the shit
 // middleware for using make in terminal
 
