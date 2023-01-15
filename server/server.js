@@ -3,12 +3,19 @@ const app = express();
 const PORT = 5000;
 
 const fs = require('fs');
+const path = require('path');
 
 // git clone path/to/upstream/repo with any arbitrary git repo to a folder here... 
   // the folder should hold differnt multiple independent c programs
+  // user should clone this build-platform and then cd into the repo folder:
 
 
-// use fs for traversal of the git repo for reading/writing
+app.get('/', (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, '../views/index.html'));
+});
+
+// use fs for traversal of the git repo for reading/writing --> look for the repo folder
+  // can add in ability to search for particular repo and then do the shit
 // middleware for using make in terminal
 
 
@@ -19,4 +26,7 @@ const fs = require('fs');
 
 // serve the website
 
-// 
+// check for port connection
+app.listen(PORT, () => {
+  console.log(`Listening in on PORT ${PORT}`);
+});
