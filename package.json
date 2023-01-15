@@ -1,0 +1,19 @@
+{
+  "name": "build-platform-c",
+  "version": "1.0.0",
+  "description": "A build platform for C programs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jemzir/build-platform-c.git"
+  },
+  "author": "James Nghiem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jemzir/build-platform-c/issues"
+  },
+  "homepage": "https://github.com/jemzir/build-platform-c#readme"
+}
