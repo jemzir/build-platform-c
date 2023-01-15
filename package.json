@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jemzir/build-platform-c/issues"
   },
-  "homepage": "https://github.com/jemzir/build-platform-c#readme"
+  "homepage": "https://github.com/jemzir/build-platform-c#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
