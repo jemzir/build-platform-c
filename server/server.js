@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 
 // path for registering the repository
   // middleware: 'api', check if the directory name already exists, registering directory middleware, end
-app.post('/api', controller.checkRepo, controller.registerRepo, (req, res) => {
-  res.status(200).json() // send the result back to the frontend req
+app.post('/api', controller.registerRepo, (req, res) => {
+  res.status(200).json('success') // send the result back to the frontend req
 })
 
 // path for building the repo with make clean

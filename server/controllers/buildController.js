@@ -1,4 +1,6 @@
 const shell = require('shelljs'); // for the buildCopyClean
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   // use fs for traversal of the git repo for reading/writing --> look for the git-repo
@@ -6,8 +8,21 @@ module.exports = {
 
   // **** any failed builds should be put into a version_numberX-f dir in build_history
 
-  dependencyCheck: (req, res, next) => {
+  dependencyCheck: async (req, res, next) => {
     // dependencies all exist, all exists and clean exists
+    try {
+      const { repoName } = req.body;
+      const absPath = path.resolve(__dirname, `../../git-repos/${repoName}`);
+      await fs.readFile(`${absPath}/Makefile`, 'utf-8', (err, data) => {
+        if (err) console.log('ERROR', err);
+        console.log(data)
+        shell.cd(absPath);
+        console.log(shell.exec('make all')) // can have condition to check for stderr existence
+      })
+      res.send('success') 
+    } catch (error) {
+      
+    }
   },
 
   orderCheck: (req, res, next) => {

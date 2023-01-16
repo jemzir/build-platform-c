@@ -19,13 +19,11 @@ module.exports = {
   shell.exec(`git clone ${repo} ${absPath}/${repoName}`);
   shell.exec(`mkdir ${absPath}/${repoName}/build_history`);
 
+  // the git clone and mkdir automatically will check for a named repo
 
-  res.send('success');
+  return next();
+
+  // can add in an error handler that will throw a message if the directory clone already exists
   },
 
-  checkRepo: (req, res, next) => {
-    // check if the repo already exists and then allow register if not exists
-      // else do not go to next
-    return next();
-  }
 }
