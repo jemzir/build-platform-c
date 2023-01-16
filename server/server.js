@@ -5,11 +5,14 @@ const PORT = 5000;
 const fs = require('fs');
 const path = require('path');
 
-const CronJob = require('cron').CronJob;
-const job = new CronJob() // ("* * * * * *", functionality, onComplete, start)
+// const CronJob = require('cron').CronJob;
+// const job = new CronJob() // ("* * * * * *", functionality, onComplete, start)
 
 const controller = require('./controllers/artifactController');
 const build = require('./controllers/buildController')
+
+// to allow for json body parsing
+app.use(express.json())
 
 // serve the initial landing page
 app.get('/', (req, res) => {
