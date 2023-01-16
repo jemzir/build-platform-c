@@ -4,9 +4,12 @@ const PORT = 5000;
 
 const fs = require('fs');
 const path = require('path');
+
 const CronJob = require('cron').CronJob;
 const job = new CronJob() // ("* * * * * *", functionality, onComplete, start)
+
 const controller = require('./controllers/artifactController');
+const build = require('./controllers/buildController')
 
 // serve the initial landing page
 app.get('/', (req, res) => {
@@ -19,8 +22,11 @@ app.post('/api', controller.checkRepo, controller.registerRepo, (req, res) => {
   res.status(200).json() // send the result back to the frontend req
 })
 
-// use fs for traversal of the git repo for reading/writing --> look for the git-repo
-  // can add in ability to search for particular repo and then do the shit
+// path for building the repo with make clean
+  // middleware: check if build is okay (dependencies are there), check order, and then build
+app.use('/build', build.dependencyCheck, build.orderCheck, build.buildCopyClean, (req, res) => {
+  res.status(200).json() // end the express cycle
+})
 
 
 // send the responses to the website

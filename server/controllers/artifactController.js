@@ -12,6 +12,7 @@ module.exports = {
   },
 
   checkRepo: (req, res, next) => {
-
+    // check if the repo already exists and then allow register if not exists
+      // else do not go to next
   }
 }
