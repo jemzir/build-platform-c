@@ -34,6 +34,11 @@ app.use('/build', build.dependencyCheck, build.orderCheck, build.buildCopyClean,
   // periodically fetch the commits
   // use node cron for scheduling
 
+// app.get path for getting the c-program builds and its histories 
+  // logic: go into git-repos and check the respective repos --
+    // for every repo make a header: 
+      // go into the repo and check the build_history dir, go through the files and list them with fail or success
+
 // check for port connection
 app.listen(PORT, () => {
   console.log(`Listening in on PORT ${PORT}`);
