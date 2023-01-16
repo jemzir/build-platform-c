@@ -4,6 +4,8 @@ const PORT = 5000;
 
 const fs = require('fs');
 const path = require('path');
+const CronJob = require('cron').CronJob;
+const job = new CronJob() // ("* * * * * *", functionality, onComplete, start)
 const controller = require('./controllers/artifactController');
 
 // serve the initial landing page
@@ -19,6 +21,7 @@ app.post('/api', controller.checkRepo, controller.registerRepo, (req, res) => {
 
 // use fs for traversal of the git repo for reading/writing --> look for the git-repo
   // can add in ability to search for particular repo and then do the shit
+
 
 // send the responses to the website
 // throttle the responses and keep a cache of latest copies?
