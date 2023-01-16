@@ -12,28 +12,38 @@ module.exports = {
     // dependencies all exist, all exists and clean exists
     try {
       const { repoName } = req.body;
+      let result = {};
       const absPath = path.resolve(__dirname, `../../git-repos/${repoName}`);
-      await fs.readFile(`${absPath}/Makefile`, 'utf-8', (err, data) => {
-        if (err) console.log('ERROR', err);
-        console.log(data)
         shell.cd(absPath);
-        console.log(shell.exec('make all')) // can have condition to check for stderr existence
-      })
-      res.send('success') 
-    } catch (error) {
-      
-    }
-  },
+        const { stdout, stderr } = (shell.exec('make all'))
 
-  orderCheck: (req, res, next) => {
-    // dependencies are in good order (possible to combine with top?)
+        if (stderr.length > 0) {
+          console.log('the error!', stderr);
+          result.statusMessage =  stderr, 
+          result.success = false;
+          res.locals.result = result;
+        } else {
+          result.statusMessage =  stdout, 
+          result.success = true;
+          console.log(result)
+          res.locals.result = result;
+        }
+
+      return next();
+    } catch (error) {
+      return next('error message');
+    }
   },
 
   buildCopyClean: (req, res, next) => {
     // run the make, fs copy everything into a version_number dir and then clean it
       // the repo should have a dir called build_history... in there make the version_number dir
       // make a complete copy of everything into that version_numberX-s folder
-      
-      // make a hidden success_status file too? This will tell the system it is a good build
+
+      console.log('reslocalsstdout', res.locals.result);
+      // ^^ we now have a res.locals status message and success value
+
+
+      res.send('buildCopyClean done')
   }
 }
