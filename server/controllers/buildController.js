@@ -39,11 +39,29 @@ module.exports = {
     // run the make, fs copy everything into a version_number dir and then clean it
       // the repo should have a dir called build_history... in there make the version_number dir
       // make a complete copy of everything into that version_numberX-s folder
+      const { repoName } = req.body;
+      let version_num = 0;
+
+      const absPath = path.resolve(__dirname, `../../git-repos/${repoName}/build_history`);
+
+      shell.cd(absPath);
+      fs.readdir(absPath, async (err, files) => {
+        version_num = files.length;
+        await console.log('version_num', version_num);
+        shell.exec(`mkdir version_num_${version_num}`)
+        shell.exec(`cp ${absPath}/../* version_num_${version_num}`)
+        shell.cd('../');
+        shell.exec('make clean');
+      })
+      
+      // copying the files and artifacts into a version num ... problem of it is recursive.. 
 
       console.log('reslocalsstdout', res.locals.result);
       // ^^ we now have a res.locals status message and success value
+      
+      // cd into the build_history, make a version_number dir (use readdir and array length to find version_num)
+      // clean the make 
 
-
-      res.send('buildCopyClean done')
+      return next();
   }
 }
