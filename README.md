@@ -10,9 +10,9 @@ Steps:
   
   1. Clone the build-platform-c repository 
 
-        a. in the terminal at the root of the repository: run "npm i"
+        a. in the terminal at the root of the repository: run ```npm i```
 
-        b. to start the server: run "npm run start-dev"
+        b. to start the server: run ```npm run start-dev```
 
   2. To register repository:
     send a POST request to 'http://localhost:5000/api' 
