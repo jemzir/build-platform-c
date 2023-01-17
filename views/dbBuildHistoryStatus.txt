@@ -1,5 +1,0 @@
-{"repoName":"hello-it-worked!","statusMessage":"gcc -Wall -std=c99 -c hello.c\ngcc -Wall -std=c99 -o hello hello.o\n","success":true,"v_num":0}
-{"repoName":"hello-it-worked!","statusMessage":"gcc -Wall -std=c99 -c hello.c\ngcc -Wall -std=c99 -o hello hello.o\n","success":true,"v_num":1}
-{"repoName":"hello-it-worked2!","statusMessage":"gcc -Wall -std=c99 -c hello.c\ngcc -Wall -std=c99 -o hello hello.o\n","success":true,"v_num":0}
-{"repoName":"hello-it-worked!","statusMessage":"gcc -Wall -std=c99 -c hello.c\ngcc -Wall -std=c99 -o hello hello.o\n","success":true,"v_num":2}
-{"repoName":"hello-it-worked2!","statusMessage":"gcc -Wall -std=c99 -c hello.c\ngcc -Wall -std=c99 -o hello hello.o\n","success":true,"v_num":1}
