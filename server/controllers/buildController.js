@@ -58,9 +58,6 @@ module.exports = {
 
       console.log('reslocalsstdout', res.locals.result);
       // ^^ we now have a res.locals status message and success value
-      
-      // cd into the build_history, make a version_number dir (use readdir and array length to find version_num)
-      // clean the make 
 
       return next();
   }
