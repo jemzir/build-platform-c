@@ -1,7 +1,9 @@
-const cron = require('node-cron');
 const express = require('express');
 const app = express();
 const PORT = 5000;
+
+const cron = require('node-cron');
+const fetch = require('cross-fetch')
 
 const fs = require('fs');
 const path = require('path');
@@ -39,19 +41,48 @@ app.post('/db', build.updateDB, (req, res) => {
   res.status(200).json(res.locals.data);
 })
 
-// send the responses to the website
-// throttle the responses and keep a cache of latest copies?
-  // periodically fetch the commits
-  // use node cron for scheduling
+cron.schedule("*/15 * * * * *", async function () {
 
-// have a function that will buildCopyClean and then verstionTrack for all of the git-repos
-  // 
-
-cron.schedule("*/15 * * * * *", function () {
   console.log("---------------------");
   console.log("running a task every 15 seconds");
+
+  const getLatest = () => {
+    gitRepos.forEach(async (repo) => {
+      console.log('in get latest', repo);
+      const response = await fetch(
+        'http://localhost:5000/scheduled', 
+        { 
+          method: 'POST',  
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({repoName: repo})
+        });
+
+      console.log('in the cron!', response);
+    });
+  }
+
+  const dirents = fs.readdirSync(
+    path.resolve(__dirname, '../git-repos'), 
+    { encoding: 'utf8', withFileTypes: 'true'},);
+  
+  const gitRepos = dirents.map(dirent => dirent.name);
+  
+  getLatest();
+  // have middleware that change the req body...
+  // go fs read through the git-repo folders and then run buildCopyClean and versionTracker
 });
 
+// route for scheduled
+app.post('/scheduled', 
+  (req, res, next) => {
+    const { repoName } = req.body;
+    console.log('req body of scheduled', req.body)
+    return next();
+  }, 
+  build.dependencyCheck, build.buildCopyClean, build.versionTracker, (req, res) => {
+  console.log('latest Version built!');
+  res.status(200).json('latest Version grabbed!')
+})
 // check for port connection
 app.listen(PORT, () => {
   console.log(`Listening in on PORT ${PORT}`);
