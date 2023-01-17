@@ -14,7 +14,8 @@ const build = require('./controllers/buildController')
 // to allow for json body parsing
 app.use(express.json())
 
-app.use(express.static('views/dbBuildHistoryStatus.txt'));
+// static files for use
+app.use(express.static(path.resolve(__dirname, '../views')));
 
 // serve the initial landing page
 app.get('/', (req, res) => {
@@ -34,7 +35,7 @@ app.post('/build', build.dependencyCheck, build.buildCopyClean, build.versionTra
 })
 
 // path for front end to get data about dbtxtfile
-app.get('/db', build.updateDB, (req, res) => {
+app.post('/db', build.updateDB, (req, res) => {
   res.status(200).json(res.locals.data);
 })
 

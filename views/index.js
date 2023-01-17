@@ -1,7 +1,14 @@
 const gitStatus = document.querySelector('#git-status');
+const getBtn = document.querySelector('#get-db');
 let text = '';
 
-fetch('db')
+function clickHandler() {
+  fetch('db', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
   .then((response) => response.json())
   .then((data) => {
     console.log(data)
@@ -11,6 +18,10 @@ fetch('db')
     p.appendChild(txtNode);
     gitStatus.appendChild(p);
   })
+}
+
+getBtn.onclick = clickHandler;
+
 
 
 
