@@ -1,3 +1,4 @@
+const cron = require('node-cron');
 const express = require('express');
 const app = express();
 const PORT = 5000;
@@ -5,11 +6,10 @@ const PORT = 5000;
 const fs = require('fs');
 const path = require('path');
 
-// const CronJob = require('cron').CronJob;
-// const job = new CronJob() // ("* * * * * *", functionality, onComplete, start)
-
 const controller = require('./controllers/artifactController');
 const build = require('./controllers/buildController')
+
+
 
 // to allow for json body parsing
 app.use(express.json())
@@ -43,6 +43,14 @@ app.post('/db', build.updateDB, (req, res) => {
 // throttle the responses and keep a cache of latest copies?
   // periodically fetch the commits
   // use node cron for scheduling
+
+// have a function that will buildCopyClean and then verstionTrack for all of the git-repos
+  // 
+
+cron.schedule("*/15 * * * * *", function () {
+  console.log("---------------------");
+  console.log("running a task every 15 seconds");
+});
 
 // check for port connection
 app.listen(PORT, () => {

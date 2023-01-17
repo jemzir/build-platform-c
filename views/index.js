@@ -22,6 +22,11 @@ function clickHandler() {
 
 getBtn.onclick = clickHandler;
 
+/**
+ * shortcut here is that button will create duplicates
+ * could configure it by having a refresh functionality/ clear and then repopulate the text
+ */
+
 
 
 
