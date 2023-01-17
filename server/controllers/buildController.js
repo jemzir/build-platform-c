@@ -8,11 +8,13 @@ module.exports = {
 
   // **** any failed builds should be put into a version_numberX-f dir in build_history
 
-  dependencyCheck: async (req, res, next) => {
-    // dependencies all exist, all exists and clean exists
+  dependencyCheck: (req, res, next) => {
+    // make all is not throwing an error
+
+    // would also include in similar logic for make clean as well.. 
     try {
       const { repoName } = req.body;
-      let result = {};
+      let result = {repoName: repoName};
       const absPath = path.resolve(__dirname, `../../git-repos/${repoName}`);
         shell.cd(absPath);
         const { stdout, stderr } = (shell.exec('make all'))
@@ -35,18 +37,18 @@ module.exports = {
     }
   },
 
-  buildCopyClean: (req, res, next) => {
+  buildCopyClean: async (req, res, next) => {
     // run the make, fs copy everything into a version_number dir and then clean it
       // the repo should have a dir called build_history... in there make the version_number dir
       // make a complete copy of everything into that version_numberX-s folder
       const { repoName } = req.body;
-      let version_num = 0;
 
       const absPath = path.resolve(__dirname, `../../git-repos/${repoName}/build_history`);
 
       shell.cd(absPath);
-      fs.readdir(absPath, async (err, files) => {
-        version_num = files.length;
+      await fs.readdir(absPath, async (err, files) => {
+        let version_num = files.length;
+        res.locals.result.v_num = version_num;
         await console.log('version_num', version_num);
         shell.exec(`mkdir version_num_${version_num}`)
         shell.exec(`cp ${absPath}/../* version_num_${version_num}`)
@@ -54,11 +56,20 @@ module.exports = {
         shell.exec('make clean');
       })
       
-      // copying the files and artifacts into a version num ... problem of it is recursive.. 
-
-      console.log('reslocalsstdout', res.locals.result);
-      // ^^ we now have a res.locals status message and success value
-
       return next();
+  },
+
+  versionTracker: (req, res, next) => {
+    // add to a textpage -- shortcut I would instead set up a database here
+    console.log(res.locals.result);
+      // fs write to the database dbBuildfile... 
+
+    const content = JSON.stringify(res.locals.result) + '\n';
+    fs.appendFile(path.resolve(__dirname, '../../views/dbBuildHistoryStatus.txt'), content, err => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    return next();
   }
 }

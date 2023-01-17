@@ -1,0 +1,2 @@
+{"repoName":"hello-it-worked!","statusMessage":"make: *** No rule to make target `hello.oo', needed by `hello'.  Stop.\n","success":false}
+{"repoName":"hello-it-worked!","statusMessage":"make: *** No rule to make target `hello.oo', needed by `hello'.  Stop.\n","success":false}

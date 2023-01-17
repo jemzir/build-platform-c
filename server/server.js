@@ -14,6 +14,8 @@ const build = require('./controllers/buildController')
 // to allow for json body parsing
 app.use(express.json())
 
+app.use(express.static('views/dbBuildHistoryStatus.txt'));
+
 // serve the initial landing page
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../views/index.html'));
@@ -27,7 +29,7 @@ app.post('/api', controller.registerRepo, (req, res) => {
 
 // path for building the repo with make clean
   // middleware: check if build is okay (dependencies are there), check order, and then build
-app.use('/build', build.dependencyCheck, build.buildCopyClean, (req, res) => {
+app.use('/build', build.dependencyCheck, build.buildCopyClean, build.versionTracker, (req, res) => {
   res.status(200).json('finished build') // end the express cycle
 })
 
@@ -36,11 +38,6 @@ app.use('/build', build.dependencyCheck, build.buildCopyClean, (req, res) => {
 // throttle the responses and keep a cache of latest copies?
   // periodically fetch the commits
   // use node cron for scheduling
-
-// app.get path for getting the c-program builds and its histories 
-  // logic: go into git-repos and check the respective repos --
-    // for every repo make a header: 
-      // go into the repo and check the build_history dir, go through the files and list them with fail or success
 
 // check for port connection
 app.listen(PORT, () => {
