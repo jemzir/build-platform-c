@@ -29,10 +29,14 @@ app.post('/api', controller.registerRepo, (req, res) => {
 
 // path for building the repo with make clean
   // middleware: check if build is okay (dependencies are there), check order, and then build
-app.use('/build', build.dependencyCheck, build.buildCopyClean, build.versionTracker, (req, res) => {
+app.post('/build', build.dependencyCheck, build.buildCopyClean, build.versionTracker, (req, res) => {
   res.status(200).json('finished build') // end the express cycle
 })
 
+// path for front end to get data about dbtxtfile
+app.get('/db', build.updateDB, (req, res) => {
+  res.status(200).json(res.locals.data);
+})
 
 // send the responses to the website
 // throttle the responses and keep a cache of latest copies?

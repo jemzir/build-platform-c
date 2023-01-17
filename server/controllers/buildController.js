@@ -54,9 +54,8 @@ module.exports = {
         shell.exec(`cp ${absPath}/../* version_num_${version_num}`)
         shell.cd('../');
         shell.exec('make clean');
+        return next();
       })
-      
-      return next();
   },
 
   versionTracker: (req, res, next) => {
@@ -71,5 +70,14 @@ module.exports = {
       }
     });
     return next();
+  },
+
+  updateDB: async (req, res, next) => {
+    await fs.readFile(path.resolve(__dirname, '../../views/dbBuildHistoryStatus.txt'), 'utf-8', (err, data) => {
+      if (err) console.log(err);
+      console.log('read file data', data);
+      res.locals= { data };
+      return next()
+    })
   }
 }
